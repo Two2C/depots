@@ -1,0 +1,8 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.twoc.depots.mapper.RoleMapper">
+    <select id="selectPageVo" resultType="com.twoc.depots.entity.Role">
+        select * from sys_role
+    </select>
+</mapper>

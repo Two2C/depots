@@ -1,0 +1,47 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.twoc.depots.mapper.TradeMapper">
+    <select id="selectTrades" resultType="com.twoc.depots.bean.vo.TradeVO">
+    SELECT
+        t.trade_id,
+        t.goods_id,
+        t.apply_person,
+        t.apply_time,
+        t.number,
+        t.trade_status,
+        t.trade_type,
+        d.goods_name,
+        d.goods_pname
+    FROM
+        depot_trade t
+    LEFT JOIN depot_dict d ON t.goods_id = d.goods_id
+    <where>
+        <if test="tradeType!=null">
+            t.trade_type=#{tradeType}
+        </if>
+        <if test="tradeStatus!=null">
+            and t.trade_status=#{tradeStatus}
+        </if>
+        <if test="tradeId!=null">
+            and t.trade_id=#{tradeId}
+        </if>
+    </where>
+
+    </select>
+    <update id="updates">
+        update depot_trade
+        <set>
+            <if test="goodsId!=null and goodsId!=''">
+                goods_id=#{goodsId},
+            </if>
+            <if test="number!=null">
+                number=#{number},
+            </if>
+            <if test="tradeType!=null">
+                trade_type=#{tradeType}
+            </if>
+        </set>
+        where trade_id=#{tradeId}
+    </update>
+</mapper>

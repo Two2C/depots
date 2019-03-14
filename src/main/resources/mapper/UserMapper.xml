@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.twoc.depots.mapper.UserMapper">
+
+    <select id="getModulesOfUser" resultType="com.twoc.depots.entity.Module">
+    select distinct m.module_id,m.module_name,m.module_url
+		from
+		sys_ur ur inner join sys_role   r  on ur.role_id = r.role_id
+		inner join sys_rm     rm on r.role_id  = rm.role_id
+		inner join sys_module m  on rm.module_id  = m.module_id
+		where m.module_status = 1 and
+		m.module_pid is not null and
+		m.module_ismenu = 1 and
+		ur.user_id=#{userId}
+    </select>
+	<update id="updateUser">
+		update  sys_user
+		<set>
+			<if test="employeeName!=null and employeeName!=''">
+				employee_name=#{employeeName},
+			</if>
+			<if test="userName!=null and userName!=''">
+				user_name=#{userName},
+			</if>
+			<if test="userPwd!=null and userPwd!=''">
+				user_pwd=#{userPwd},
+			</if>
+			<if test="userStatus!=null">
+  				user_status=#{userStatus},
+			</if>
+			<if test="phone!=null and phone!=''">
+				phone=#{phone},
+			</if>
+			<if test="sex!=null">
+				sex=#{sex},
+			</if>
+			<if test="employeeAddress!=null and employeeAddress!=''">
+				employee_address=#{employeeAddress},
+			</if>
+			<if test="birthday!=null and birthday!=''">
+				birthday=#{birthday},
+			</if>
+			<if test="idCard!=null and idCard!=''">
+				id_card=#{idCard}
+			</if>
+		</set>
+		where user_id=#{userId}
+
+	</update>
+</mapper>
