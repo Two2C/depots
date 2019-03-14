@@ -49,16 +49,12 @@
 
     <form class="layui-form" lay-filter="form-plan-add">
 
-        <div class="layui-form-item">
+        <div class="layui-form-item" >
             <label class="layui-form-label">商品名称</label>
-            <div class="layui-input-block">
-                <select name="goodsPname">
-                    <option value="">请选择商品类别</option>
-                    <option value="你工作的第一个城市">1</option>
+            <div class="layui-inline" >
+                <select name="goodsPid" id="pName" lay-filter="Pselect" lay-verify="required">
                 </select>
-                <select name="goodsName">
-                    <option value="">请选择商品</option>
-                    <option value="你工作的第一个城市">a</option>
+                <select name="goodsId" id="Name">
                 </select>
             </div>
         </div>
@@ -269,21 +265,39 @@
         var layerIdx;
         $('#bn-plan-add').click(function() {
             form.val("form-plan-add", {//form-cus-add是表单的lay-filter值
-                "goodsName": "" ,
                 "number": "",
                 "tradeType":"",
             });
-            layerIdx = layer.open({
-                type : 1,
-                title : '新增出入库信息',
-                area : [ '700px', '400px' ],
-                content : $('#dom-win-plan-add'),
-                zIndex:100 //将层次降低，以使sweetalert能够在layer之上
+            opr.ajax({
+                url: '/dict/getPdict',
+                method: 'post',
+                layer: layer,
+                responseOkHandler: function (plan) {
+                    if(plan.length>0){
+                        $('#pName').empty();
+                        $('#pName').append("<option value=''>选择主分类</option>");
+                        for(var i=0;i<plan.length;i++){
+                            var item=plan[i];
+                            $("<option value="+item.goodsPid+">"+item.goodsPname+"</option>").appendTo("#pName");
+                        }
+                        form.render("select")
+                    }
+
+
+                    layerIdx = layer.open({
+                        type : 1,
+                        title : '新增出入库信息',
+                        area : [ '700px', '400px' ],
+                        content : $('#dom-win-plan-add'),
+                        zIndex:100 //将层次降低，以使sweetalert能够在layer之上
+                    });
+
+                }
             });
         });//打开新增窗口结束
         form.on('submit(bn-plan-do-add)', function(data){
-            console.log(data.field) //当前容器的全部表单字段，名值对形式：{name: value}
             opr.ajax({
+
                 url:'/plan/add',
                 data:JSON.stringify(data.field),
                 method:'post',
@@ -294,7 +308,7 @@
                     return true;//返回true,继续默认后续行为
                 }
             });
-            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+            return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。*/
         });
         form.on('submit(bn-plan-do-upd)', function(data){
             opr.ajax({
@@ -343,6 +357,28 @@
             });
             return false;
         });//查询结束
+        $('#pName').click(function(){
+
+        });
+        form.on('select(Pselect)',function(data){
+            opr.ajax({
+                url:'/dict/getDict/'+data.value,
+                method:'post',
+                layer:layer,
+                layuiTableIns:planTable,
+                responseOkHandler:function(result){
+                    if(result.length>0){
+                        $('#Name').empty();
+                        $('#Name').append("<option value=''>选择子分类</option>");
+                        for(var i=0;i<result.length;i++){
+                            var item=result[i];
+                            $("<option value="+item.goodsId+">"+item.goodsName+"</option>").appendTo("#Name");
+                        }
+                        form.render("select");
+                    }
+                }
+            });
+        });
 
     });
     </script>
