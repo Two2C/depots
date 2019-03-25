@@ -40,4 +40,23 @@ public interface TradeService {
      * @return
      */
     ResultDto updates(TradeDTO tradeDTO);
+
+    /**
+     * 获取入库信息
+     * @param tradeDTO
+     * @return
+     */
+    LayuiData getComeLists(TradeDTO tradeDTO);
+    /**
+     * 获取出库信息
+     * @param tradeDTO
+     * @return
+     */
+    LayuiData getOutLists(TradeDTO tradeDTO);
+
+    /**
+     * 查询快递信息
+     * @return
+     */
+    ResultDto selectExpress(String tradeId);
 }

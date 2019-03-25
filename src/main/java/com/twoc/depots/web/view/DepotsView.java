@@ -9,4 +9,16 @@ public class DepotsView {
     public String toPlan(){
         return "plan";
     }
+    @RequestMapping("depot/toCome")
+    public String toCome(){
+        return "come";
+    }
+    @RequestMapping("depot/toOut")
+    public String toOut(){
+        return "out";
+    }
+    @RequestMapping("goods/toGoods")
+    public String toGoods(){
+        return "goods";
+    }
 }

@@ -18,7 +18,7 @@ public interface TradeMapper extends BaseMapper<Trade> {
      * @param tradeDTO
      * @return
      */
-    List<TradeVO> selectTrades(TradeDTO tradeDTO);
+    List<TradeVO> selectPlans(TradeDTO tradeDTO);
 
     /**
      * 更新
@@ -26,4 +26,18 @@ public interface TradeMapper extends BaseMapper<Trade> {
      * @return
      */
     int updates(TradeDTO tradeDTO);
+
+    /**
+     * 查询入库信息
+     * @param tradeDTO
+     * @return
+     */
+    List<TradeVO> getOut(TradeDTO tradeDTO);
+
+    /**
+     * 查询入库信息
+     * @param tradeDTO
+     * @return
+     */
+    List<TradeVO> selectCome(TradeDTO tradeDTO);
 }

@@ -2,7 +2,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.twoc.depots.mapper.TradeMapper">
-    <select id="selectTrades" resultType="com.twoc.depots.bean.vo.TradeVO">
+    <select id="selectPlans" resultType="com.twoc.depots.bean.vo.TradeVO">
     SELECT
         t.trade_id,
         t.goods_id,
@@ -17,17 +17,107 @@
         depot_trade t
     LEFT JOIN depot_dict d ON t.goods_id = d.goods_id
     <where>
-        <if test="tradeType!=null">
-            t.trade_type=#{tradeType}
-        </if>
-        <if test="tradeStatus!=null">
-            and t.trade_status=#{tradeStatus}
-        </if>
-        <if test="tradeId!=null">
-            and t.trade_id=#{tradeId}
-        </if>
+      <choose>
+          <when test="tradeStatus!=null">
+              t.trade_status=#{tradeStatus}
+              <if test="tradeType!=null">
+                  and t.trade_type=#{tradeType}
+              </if>
+
+              <if test="tradeId!=null">
+                  and t.trade_id=#{tradeId}
+              </if>
+          </when>
+          <otherwise>
+              t.trade_status='0' or t.trade_status='1'
+          </otherwise>
+      </choose>
     </where>
 
+    </select>
+
+    <select id="selectCome" resultType="com.twoc.depots.bean.vo.TradeVO">
+        SELECT
+        t.trade_id,
+        t.goods_id,
+        t.apply_person,
+        t.apply_time,
+        t.number,
+        t.trade_status,
+        t.trade_type,
+        d.goods_name,
+        d.goods_pname
+        FROM
+        depot_trade t
+        LEFT JOIN depot_dict d ON t.goods_id = d.goods_id
+        <where>
+            <choose>
+                <when test="tradeStatus!=null">
+                    t.trade_status=#{tradeStatus}
+                    <if test="tradeId!=null">
+                        and t.trade_id=#{tradeId}
+                    </if>
+                </when>
+                <when test="tradeStatus==null and tradeId!=null" >
+                    t.trade_id=#{tradeId}
+                    and
+                    (t.trade_status='1'
+                    or t.trade_status='5'
+                    or t.trade_status='10'
+                    or t.trade_status='15'
+                    ) and t.trade_type=0
+                </when>
+                <otherwise>
+                    (t.trade_status='1'
+                    or t.trade_status='5'
+                    or t.trade_status='10'
+                    or t.trade_status='15'
+                    ) and t.trade_type=0
+                </otherwise>
+            </choose>
+        </where>
+
+    </select>
+    <select id="getOut" resultType="com.twoc.depots.bean.vo.TradeVO">
+        SELECT
+        t.trade_id,
+        t.goods_id,
+        t.apply_person,
+        t.apply_time,
+        t.number,
+        t.trade_status,
+        t.trade_type,
+        d.goods_name,
+        d.goods_pname
+        FROM
+        depot_trade t
+        LEFT JOIN depot_dict d ON t.goods_id = d.goods_id
+        <where>
+            <choose>
+                <when test="tradeStatus!=null">
+                    t.trade_status=#{tradeStatus}
+                    <if test="tradeId!=null">
+                        and t.trade_id=#{tradeId}
+                    </if>
+                </when>
+                <when test="tradeStatus==null and tradeId!=null" >
+                    t.trade_id=#{tradeId}
+                    and
+                    (t.trade_status='1'
+                    or t.trade_status='20'
+                    or t.trade_status='25'
+                    or t.trade_status='30'
+                    ) and t.trade_type=1
+                </when>
+                <otherwise>
+                    (t.trade_status='1'
+                    or t.trade_status='20'
+                    or t.trade_status='25'
+                    or t.trade_status='30'
+                    ) and t.trade_type=1
+                </otherwise>
+            </choose>
+        </where>
     </select>
     <update id="updates">
         update depot_trade
@@ -44,4 +134,23 @@
         </set>
         where trade_id=#{tradeId}
     </update>
+
+    <!--审核的列表-->
+    <select id="getLists" resultType="com.twoc.depots.bean.vo.TradeVO">
+        SELECT
+        t.trade_id,
+        t.goods_id,
+        t.apply_person,
+        t.apply_time,
+        t.number,
+        t.trade_status,
+        t.trade_type,
+        d.goods_name,
+        d.goods_pname
+        FROM
+        depot_trade t
+        LEFT JOIN depot_dict d ON t.goods_id = d.goods_id
+        where
+            t.trade_status!='0' and  t.trade_status!='1'
+    </select>
 </mapper>

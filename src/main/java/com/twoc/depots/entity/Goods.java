@@ -16,7 +16,7 @@ public class Goods {
      * 商品名称
      */
     @TableField("goods_name")
-    private String goods;
+    private String goodsName;
     /**
      * 存储数量
      */
