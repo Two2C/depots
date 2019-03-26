@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface URMapper extends BaseMapper<UR> {
+    int roledeleteAllUr(String userId);
+
+    int insertList(Integer[] roleIds, String userId);
 }

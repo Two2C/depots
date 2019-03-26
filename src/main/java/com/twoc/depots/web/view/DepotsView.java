@@ -5,19 +5,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class DepotsView {
-    @RequestMapping("plan/toPlan")
+    @RequestMapping("/plan/toPlan")
     public String toPlan(){
         return "plan";
     }
-    @RequestMapping("depot/toCome")
+    @RequestMapping("/depot/toCome")
     public String toCome(){
         return "come";
     }
-    @RequestMapping("depot/toOut")
+    @RequestMapping("/depot/toOut")
     public String toOut(){
         return "out";
     }
-    @RequestMapping("goods/toGoods")
+    @RequestMapping("/goods/toGoods")
     public String toGoods(){
         return "goods";
     }

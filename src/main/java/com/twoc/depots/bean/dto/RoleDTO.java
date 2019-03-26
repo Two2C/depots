@@ -1,8 +1,11 @@
 package com.twoc.depots.bean.dto;
 
+import com.twoc.depots.entity.Module;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Data
 public class RoleDTO {
     /**
@@ -10,7 +13,7 @@ public class RoleDTO {
      */
     @NotNull(message = "角色id不能为空",groups = {RoleDTO.UpdateRole.class,RoleDTO.AddRole.class})
     private Integer roleId;
-
+    private boolean checked;
     /**
      * 名称
      */
@@ -26,9 +29,10 @@ public class RoleDTO {
     @NotNull(message = "状态不能为空")
     private Integer roleStatus;
 
+    private List<Module> modules;
     private int page;
     private int limit;
-    private int userId;
+    private Integer userId;
     /**
      * 更新角色状态
      */

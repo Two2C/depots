@@ -7,7 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.twoc.depots.bean.dto.RoleDTO;
 import com.twoc.depots.common.LayuiData;
 import com.twoc.depots.common.ResultDto;
+import com.twoc.depots.entity.Module;
 import com.twoc.depots.entity.Role;
+import com.twoc.depots.mapper.ModuleMapper;
 import com.twoc.depots.mapper.RoleMapper;
 import com.twoc.depots.mapper.URMapper;
 import com.twoc.depots.service.RoleService;
@@ -15,6 +17,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,6 +26,8 @@ public class RoleServiceImpl implements RoleService {
     private RoleMapper roleMapper;
     @Autowired
     private URMapper urMapper;
+    @Autowired
+    private ModuleMapper moduleMapper;
     @Override
     public ResultDto addRole(RoleDTO roles) {
         Role role=new Role();
@@ -94,5 +99,30 @@ public class RoleServiceImpl implements RoleService {
         }
         return ResultDto.failResult("修改失败");
 
+    }
+
+    @Override
+    public List<RoleDTO> selectByUser(Integer userId) {
+        List<Role> roles = roleMapper.selectByUser(userId);
+        List<RoleDTO> roleDTOS=new ArrayList<>();
+        for(Role role:roles){
+            RoleDTO roleDTO=new RoleDTO();
+            BeanUtils.copyProperties(role,roleDTO);
+            List<Module> modules = moduleMapper.selectByRole(role.getRoleId());
+            roleDTO.setModules(modules);
+            roleDTOS.add(roleDTO);
+        }
+        return roleDTOS;
+    }
+
+    @Override
+    public List<RoleDTO> selectRoleByUser(Integer userId) {
+        List<RoleDTO> roles = roleMapper.selectAllByUser(userId);
+        for(RoleDTO r:roles){
+            if(r.getUserId()!=null){
+                r.setChecked(true);
+            }
+        }
+        return roles;
     }
 }

@@ -43,4 +43,17 @@ public interface RoleService {
      * @return
      */
     ResultDto updates(RoleDTO roleDTO);
+
+    /**
+     * 查询用户角色
+     */
+    List<RoleDTO> selectByUser(Integer userId);
+
+    /**
+     * 查询用户角色
+     * @param userId
+     * @return
+     */
+    List<RoleDTO> selectRoleByUser(Integer userId);
+
 }

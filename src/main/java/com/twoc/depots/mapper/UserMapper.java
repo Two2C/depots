@@ -25,4 +25,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return
      */
     int updateUser(UserDTO userDTO);
+
+    /**
+     * 查询用户
+     * @param userDTO
+     * @return
+     */
+    User selectUser(UserDTO userDTO);
 }

@@ -22,4 +22,13 @@ public interface RoleMapper extends BaseMapper<Role> {
      * @return
      */
     IPage<Role> selectPageVo(Page page);
+
+    /**
+     * 查询用户角色信息
+     * @param userId
+     * @return
+     */
+    List<Role> selectByUser(Integer userId);
+
+    List<RoleDTO> selectAllByUser(Integer userId);
 }

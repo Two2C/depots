@@ -49,4 +49,9 @@
 		where user_id=#{userId}
 
 	</update>
+	<select id="selectUser" resultType="com.twoc.depots.entity.User">
+		select * from sys_user
+		where user_name=#{userName}
+		and user_pwd=#{userPwd}
+	</select>
 </mapper>

@@ -32,7 +32,7 @@ public interface UserService {
     ResultDto addUser(UserDTO userDTO);
 
     /**
-     * 查询
+     * 通过id查询
      * @param userId
      * @return
      */
@@ -44,4 +44,26 @@ public interface UserService {
      * @return
      */
     ResultDto updateUser(UserDTO userDTO);
+
+    /**
+     * 通过用户名查找用户信息
+     * @param userName
+     * @return
+     */
+    UserDTO selectByName(String userName);
+
+    /**
+     * 登录
+     * @param userDTO
+     * @return
+     */
+    ResultDto selectUser(UserDTO userDTO);
+
+    /**
+     * 用户分配权限
+     * @param roleIds
+     * @param userId
+     * @return
+     */
+    ResultDto getRole(Integer[] roleIds, String userId);
 }

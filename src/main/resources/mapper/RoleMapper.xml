@@ -5,4 +5,19 @@
     <select id="selectPageVo" resultType="com.twoc.depots.entity.Role">
         select * from sys_role
     </select>
+    <select id="selectByUser" resultType="com.twoc.depots.entity.Role">
+        select r.* from
+          sys_ur ur LEFT JOIN sys_role r on ur.role_id=r.role_id
+        where ur.user_id=#{userId} and r.role_status=3
+    </select>
+    <select id="selectAllByUser" resultType="com.twoc.depots.bean.dto.RoleDTO">
+        SELECT distinct
+		e.role_id,
+		e.role_name,
+		u.user_id
+	FROM
+		      sys_role  e
+	left JOIN sys_ur    r  ON r.role_id = e.role_id
+	left JOIN (select user_id from sys_user where user_id=#{userId})  u  ON u.user_id  = r.user_id
+    </select>
 </mapper>

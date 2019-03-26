@@ -1,9 +1,12 @@
 package com.twoc.depots.bean.dto;
 
+import com.twoc.depots.entity.Module;
+import com.twoc.depots.entity.Role;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class UserDTO {
@@ -57,6 +60,7 @@ public class UserDTO {
      */
     @NotNull(message = "身份证号码不能为空",groups = {UserDTO.Add.class})
     private String idCard;
+    private List<RoleDTO> roles;
     private int page;
     private int limit;
     public interface Add{
